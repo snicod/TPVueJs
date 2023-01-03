@@ -11,7 +11,7 @@ export default new Vuex.Store({
   state: () => ({
     villes: [],
     persos: [],
-    currentPerso: -1
+    currentPerso: null
   }),
   // mutations = fonctions synchrones pour mettre à jour le state (!!! interdit de modifier directement le state)
   mutations: {

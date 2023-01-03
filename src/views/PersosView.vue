@@ -4,7 +4,7 @@
       <!-- partie gauche -->
       <div style="text-align: left; width: 30%">
         <h1>Les personnages</h1>
-        <select v-model="selected" class="persoselect" @change="setCurrentPerso">
+        <select v-model="selected" class="persoselect" @change="setCurrentPerso(selected)">
           <option disabled value="">Sélectionner un personnage</option>
           <option v-for="(perso, index) in persos" :key="index" :value="perso">{{perso.nom}}</option>
         </select>
@@ -132,8 +132,9 @@ export default {
       }
     },
     setCurrentPerso(index) {
+      console.log(this.$store.state.currentPerso)
       this.$store.commit('setCurrentPerso', index)
-      console.log(this.$store.state.currentPerso, index)
+      console.log(this.$store.state.currentPerso.nom)
     }
   },
 }
