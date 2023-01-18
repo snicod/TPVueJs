@@ -9,7 +9,7 @@
     </v-app-bar>
 
     <v-main>
-      <router-view/>
+      <router-view name="central"></router-view>
     </v-main>
   </v-app>
 </template>

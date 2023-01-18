@@ -9,7 +9,7 @@
 <script>
 export default {
   name: "NavBar",
-  props: { titles: Array}
+  props: { titles: Array }
 }
 </script>
 
