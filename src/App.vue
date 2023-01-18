@@ -5,7 +5,7 @@
       color="primary"
       dark
     >
-      <NavBar :titles="titles" @menu-clicked="goTo"></NavBar>
+      <NavBar :titles="titles"></NavBar>
     </v-app-bar>
 
     <v-main>
@@ -23,23 +23,12 @@ export default {
   name: 'App',
   components: {NavBar},
   data: () => ({
-    titles: [ {text:'Personnages', color: 'blue'},
-      {text:'Villes', color: 'red'},
-    ],
-    currentIndex: -1
+    titles: [ {text:'Personnages', color: 'blue', path: '/persos'},
+              {text:'Villes', color: 'red', path: '/towns'}
+            ]
   }),
   methods: {
-    ...mapActions(['getAllTowns', 'getAllCharacs']),
-    goTo(index) {
-      if (index !== this.currentIndex) {
-        this.currentIndex = index
-        if (index === 0) {
-          this.$router.push('persos')
-        } else if (index === 1) {
-          this.$router.push('towns')
-        }
-      }
-    }
+    ...mapActions(['getAllTowns', 'getAllCharacs'])
   },
   mounted() {
     this.getAllTowns()

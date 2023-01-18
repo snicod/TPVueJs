@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn v-for="(but, index) in titles" :key="index" :color="but.color" @click="$emit('menu-clicked', index)">
+    <v-btn v-for="(but, index) in titles" :key="index" :color="but.color" @click="$router.push(but.path)">
       {{but.text}}
     </v-btn>
   </div>
