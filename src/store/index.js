@@ -44,8 +44,11 @@ export default new Vuex.Store({
         state.currentPerso.or -= item.prix
         console.log(state.currentPerso.or+" or restant")
       }
+    },
+    stock (state, item) {
+      state.currentShop.itemStock.push(item)
+    },
 
-    }
   },
   // actions = fonctions asynchrone pour mettre à jour le state, en faisant appel aux mutations, via la fonction commit()
   actions: {
@@ -68,6 +71,12 @@ export default new Vuex.Store({
       else {
         console.log(response.data)
       }
+    },
+    async order(context, data) {
+      setTimeout(() => {
+        context.commit('stock', data.item);
+      }, data.time);
+
     }
   }
 })
