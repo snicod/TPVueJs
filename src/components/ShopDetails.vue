@@ -81,14 +81,26 @@ export default {
       }
     },
     buyOneItem(index) {
-      console.log('achat de '+this.shop.itemStock[index].nom)
+      if (this.$store.state.currentPerso) {
+        let gold = this.$store.getters.getCurrentGold
+        if (this.shop.itemStock[index].prix < gold) {
+          console.log('achat de '+this.shop.itemStock[index].nom)
+          this.$store.commit('sell', this.shop.itemStock[index])
+        }
+        else {
+          alert("Le personnage n'a plus assez de Gold")
+        }
+      }
     },
     buySelectedItems() {
       console.log('achat des items d\'indice '+this.idSelectedItemsStock)
+      this.idSelectedItemsStock.reverse().forEach( index => {
+        this.buyOneItem(index)
+      })
     },
     orderOneItem(index) {
       console.log('commande de '+this.shop.itemCommande[index].nom)
-    }
+    },
   },
   watch: {
     // Si on change de boutique, le tableau idSelectedItemStock ne va pas changer.

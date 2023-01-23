@@ -51,10 +51,9 @@ export default {
   data: () => ({
     filter: '',
     filterActive: false,
-    currentShop: null,
   }),
   computed: {
-    ...mapState(['villes']),
+    ...mapState(['villes', "currentShop"]),
     villesFiltre() {
       if (this.filterActive) {
         return this.villes.filter(v => v.nom.includes(this.filter))
@@ -75,10 +74,10 @@ export default {
   methods: {
     townSelected(evt) {
       this.filter = evt
-      this.currentShop = null // pour enlever la boutique courante affichée si on change de ville
+      this.$store.commit("setCurrentShop", null) // pour enlever la boutique courante affichée si on change de ville
     },
     shopSelected(streetIndex, shopIndex) {
-      this.currentShop = this.currentTown.rues[streetIndex].boutiques[shopIndex]
+      this.$store.commit("setCurrentShop", this.currentTown.rues[streetIndex].boutiques[shopIndex])
     }
   },
 }

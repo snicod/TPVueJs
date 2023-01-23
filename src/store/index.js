@@ -11,8 +11,17 @@ export default new Vuex.Store({
   state: () => ({
     villes: [],
     persos: [],
-    currentPerso: null
+    currentPerso: null,
+    currentShop: null
   }),
+  getters: {
+    getCurrentGold(state) {
+      if (state.currentPerso !== null) {
+        return state.currentPerso.or;
+      }
+      return 0;
+    }
+  },
   // mutations = fonctions synchrones pour mettre à jour le state (!!! interdit de modifier directement le state)
   mutations: {
     updateVilles(state, villes) {
@@ -22,7 +31,20 @@ export default new Vuex.Store({
       state.persos = persos
     },
     setCurrentPerso(state, perso) {
-        state.currentPerso = perso
+      state.currentPerso = perso
+    },
+    setCurrentShop(state, shop) {
+      state.currentShop = shop
+    },
+    sell(state, item) {
+      if (state.currentPerso !== null) {
+        state.currentPerso.itemsAchetes.push(item)
+        let ind = state.currentShop.itemStock.indexOf(item)
+        state.currentShop.itemStock.splice(ind, 1)
+        state.currentPerso.or -= item.prix
+        console.log(state.currentPerso.or+" or restant")
+      }
+
     }
   },
   // actions = fonctions asynchrone pour mettre à jour le state, en faisant appel aux mutations, via la fonction commit()
