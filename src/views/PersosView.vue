@@ -31,7 +31,7 @@
               <ul>
                 <li v-for="(slot, index) in slots" :key="index">
                   {{ slot.label }} <span v-if="slot.items.length >0">[{{slot.items.length}}]</span> :
-                  <span v-for="(item, index) in slot.items" :key="index">{{item.nom}}, </span>
+                  <span v-for="(item, index) in slot.items" :key="index">{{item.nom}} <button @click="enlever(slot, item)">Enlever</button>, </span>
                 </li>
               </ul>
             </td>
@@ -60,6 +60,7 @@
           <option v-for="(itemAchete, index) in currentPerso.itemsAchetes" :key="index" :value="itemAchete">{{itemAchete.nom}}</option>
         </select>
         <button @click="sellItem(itemSell)"> Vendre </button>
+        <button @click="equiperItem(itemSell)"> Équiper </button>
       </div>
     </div>
   </v-container>
@@ -87,7 +88,7 @@ export default {
       // construit un tableau contenant autant de cases qu'il y a d'items achetés
       // chaque case contient true/false en fonction du fait que l'item est sélectionné ou non
       let tab = []
-      for(let i=0;i<this.selected.itemsAchetes.length;i++) {
+      for (let i = 0; i < this.selected.itemsAchetes.length; i++) {
         if (this.idSelectedBoughtItems.includes(i)) tab.push(true)
         else tab.push(false)
       }
@@ -120,11 +121,11 @@ export default {
   },
   methods: {
     showItemPrice(index) {
-      alert(this.selected.itemsAchetes[index].nom+' : '+ this.selected.itemsAchetes[index].prix)
+      alert(this.selected.itemsAchetes[index].nom + ' : ' + this.selected.itemsAchetes[index].prix)
     },
     showItemsInfo() {
       let items = ""
-      this.idSelectedBoughtItems.forEach(e => items += ' '+this.selected.itemsAchetes[e].nom)
+      this.idSelectedBoughtItems.forEach(e => items += ' ' + this.selected.itemsAchetes[e].nom)
       alert(items)
     },
     toggleItem(index) {
@@ -132,10 +133,9 @@ export default {
       if (id === -1) {
         // ajoute index
         this.idSelectedBoughtItems.push(index)
-      }
-      else {
+      } else {
         // enleve index
-        this.idSelectedBoughtItems.splice(id,1)
+        this.idSelectedBoughtItems.splice(id, 1)
       }
     },
     setCurrentPerso(index) {
@@ -147,13 +147,45 @@ export default {
       console.log(index)
       let random = (Math.random() * (0.9 - 0.4) + 0.4).toFixed(1);
       let newPrice = index.prix * random;
-      let test = confirm("Vous allez vendre cet item à : "+newPrice+" golds, voulez vous continuer ?")
+      let test = confirm("Vous allez vendre cet item à : " + newPrice + " golds, voulez vous continuer ?")
       if (test) {
-        this.$store.commit('resell', {item: index, gold: newPrice })
+        this.$store.commit('resell', {item: index, gold: newPrice})
       }
+    },
+    equiperItem(index) {
+      console.log(index)
+      if (index !== null) {
+        let test = confirm("Vous allez équiper cet item, voulez vous continuer ?")
+        if (test) {
+          this.$store.commit('equip', index)
+        }
+      } else {
+        alert("Pas d'item sélectionné")
+      }
+    },
+    enlever(slot, index) {
+      switch (slot.label) {
+        case 'tête':
+          this.$store.commit('enlever', {item: index, index: 0});
+          break
+        case 'corps':
+          this.$store.commit('enlever', {item: index, index: 1});
+          break
+        case 'mains':
+          this.$store.commit('enlever', {item: index, index: 2});
+          break
+        case 'ceinture':
+          this.$store.commit('enlever', {item: index, index: 3});
+          break
+        case 'sac à dos':
+          this.$store.commit('enlever', {item: index, index: 4});
+          break
+      }
+      this.$store.commit('enlever', index)
     }
-  },
+  }
 }
+
 </script>
 
 <style>
