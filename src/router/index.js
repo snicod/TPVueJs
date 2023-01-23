@@ -2,16 +2,39 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import TownsView from '../views/TownsView.vue'
 import PersosView from "@/views/PersosView.vue";
+import StreetsView from "@/components/StreetsView.vue";
+import ShopsView from "@/components/ShopsView.vue";
 
 Vue.use(VueRouter)
 
+let shops;
 const routes = [
   {
     path: '/towns',
     name: 'towns',
     components: {
       central: TownsView
-    }
+    },
+    children: [{
+      path: ':idtown',
+      name: 'streets',
+      components: {
+        streets: StreetsView
+      },
+      props: {
+        streets: router => {return {idTown: router.params.idtown}}
+      },
+      children: [{
+        path: 'street/:idstreet',
+        name: shops,
+        components: {
+          shops: ShopsView
+        },
+        props: {
+          shops: router => {return {idTown: router.params.idtown, idStreet: router.params.idstreet}}
+        }
+      }]
+    }]
   },
   {
     path: '/persos',
