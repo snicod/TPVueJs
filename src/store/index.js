@@ -48,6 +48,15 @@ export default new Vuex.Store({
     stock (state, item) {
       state.currentShop.itemStock.push(item)
     },
+    resell (state, data) {
+      let ind = state.currentPerso.itemsAchetes.indexOf(data.item)
+      state.currentPerso.itemsAchetes.splice(ind, 1)
+      if (state.currentShop) {
+        state.currentShop.itemStock.push(data.item)
+
+      }
+      state.currentPerso.or += data.gold
+    }
 
   },
   // actions = fonctions asynchrone pour mettre à jour le state, en faisant appel aux mutations, via la fonction commit()

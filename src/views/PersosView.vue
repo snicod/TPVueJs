@@ -54,6 +54,12 @@
             </td>
           </tr>
         </table>
+        <br>
+        <select v-model="itemSell" class="persoselect">
+          <option disabled value="">Sélectionner un item à revendre</option>
+          <option v-for="(itemAchete, index) in currentPerso.itemsAchetes" :key="index" :value="itemAchete">{{itemAchete.nom}}</option>
+        </select>
+        <button @click="sellItem(itemSell)"> Vendre </button>
       </div>
     </div>
   </v-container>
@@ -71,10 +77,11 @@ export default {
   components: {CheckedList},
   data: () => ({
     selected: null,
+    itemSell: null,
     idSelectedBoughtItems: [], // ce tableau ne contient que les ids des items achetés sélectionnés.
   }),
   computed: {
-    ...mapState(['persos']),
+    ...mapState(['persos', 'currentPerso']),
     checkedBoughtItems() {
       if (this.selected === null) return []
       // construit un tableau contenant autant de cases qu'il y a d'items achetés
@@ -135,6 +142,15 @@ export default {
       console.log(this.$store.state.currentPerso)
       this.$store.commit('setCurrentPerso', index)
       console.log(this.$store.state.currentPerso.nom)
+    },
+    sellItem(index) {
+      console.log(index)
+      let random = (Math.random() * (0.9 - 0.4) + 0.4).toFixed(1);
+      let newPrice = index.prix * random;
+      let test = confirm("Vous allez vendre cet item à : "+newPrice+" golds, voulez vous continuer ?")
+      if (test) {
+        this.$store.commit('resell', {item: index, gold: newPrice })
+      }
     }
   },
 }
@@ -144,4 +160,12 @@ export default {
 .persoselect {
   background-color: lightgray;
 }
+button {
+  border: 1px solid #000;
+  background-color: #000;
+  color: #fff;
+  border-radius: 10px;
+  margin-left: 10px;
+}
+
 </style>
