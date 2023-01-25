@@ -7,7 +7,6 @@ import ShopsView from "@/components/ShopsView.vue";
 
 Vue.use(VueRouter)
 
-let shops;
 const routes = [
   {
     path: '/towns',
@@ -26,7 +25,7 @@ const routes = [
       },
       children: [{
         path: 'street/:idstreet',
-        name: shops,
+        name: 'shops',
         components: {
           shops: ShopsView
         },
