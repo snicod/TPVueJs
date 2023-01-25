@@ -3,7 +3,7 @@
     <div style="text-align: left">
       <select v-model="currentShop" class="townselect" @change="setCurrentShop(currentShop)">
         <option hidden value=null>Sélectionner une boutique</option>
-        <option :value="index" v-for="(boutique, index) in villes[idTown].rues[idStreet].boutiques" :key="index">{{boutique.nom}}</option>
+        <option :value="index" v-for="(boutique, index) in villes[idTown-1].rues[idStreet].boutiques" :key="index">{{boutique.nom}}</option>
       </select>
     </div>
     <router-view name="shops" style="text-align: right"></router-view>
@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     setCurrentShop(index) {
-      this.currentShop = this.villes[this.idTown].rues[this.idStreet].boutiques[index]
+      this.currentShop = this.villes[this.idTown-1].rues[this.idStreet].boutiques[index]
       this.$store.commit("setCurrentShop", this.currentShop)
     }
   }

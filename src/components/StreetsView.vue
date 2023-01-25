@@ -3,7 +3,7 @@
     <div style="text-align: left">
       <select v-model="currentStreet" class="townselect" @change="$router.push({name: 'shops', params:{ idtown: idTown, idstreet: currentStreet}})">
         <option hidden value=null>Sélectionner une rue</option>
-        <option :value="index" v-for="(rue, index) in villes[idTown].rues" :key="index">{{rue.nom}}</option>
+        <option :value="index" v-for="(rue, index) in villes[idTown-1].rues" :key="index">{{rue.nom}}</option>
       </select>
     </div>
     <router-view name="shops" style="text-align: right"></router-view>

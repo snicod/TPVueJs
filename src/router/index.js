@@ -4,6 +4,7 @@ import TownsView from '../views/TownsView.vue'
 import PersosView from "@/views/PersosView.vue";
 import StreetsView from "@/components/StreetsView.vue";
 import ShopsView from "@/components/ShopsView.vue";
+import SlotEdit from "@/components/SlotEdit.vue";
 
 Vue.use(VueRouter)
 
@@ -40,11 +41,18 @@ const routes = [
     name: 'persos',
     components: {
       central: PersosView
-    }
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    // component: () => import(/* webpackChunkName: "about" */ '../views/PersosView.vue')
+    },
+    children: [{
+      path: 'slot/:name',
+      name: 'slot',
+      components: {
+        slot: SlotEdit
+      },
+      props: {
+        slot: router => {return {slotName: router.params.name}
+        }
+      }
+    }]
   }
 ]
 
