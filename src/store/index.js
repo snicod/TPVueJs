@@ -119,8 +119,9 @@ export default new Vuex.Store({
       }
     },
     enlever(state, data) {
-      let ind = state.currentPerso.emplacements[data.index].items.indexOf(data.item);
-      state.currentPerso.emplacements[data.index].items.splice(ind, 1)
+      let ind = state.currentPerso.emplacements[data.index-1].items.indexOf(data.item);
+      console.log( state.currentPerso.emplacements[data.index-1].items[ind])
+      state.currentPerso.emplacements[data.index-1].items.splice(ind, 1)
       state.currentPerso.itemsAchetes.push(data.item)
     }
   },

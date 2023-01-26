@@ -50,7 +50,8 @@
     <button @click="sellItem(itemSell)"> Vendre </button>
     <button @click="equiperItem(itemSell)"> Équiper </button>
 
-    <router-view name="slot" style="text-align: right"></router-view>
+    <br>
+    <router-view name="slot" style="text-align: center"></router-view>
   </div>
 </template>
 
@@ -140,26 +141,6 @@ export default {
       } else {
         alert("Pas d'item sélectionné")
       }
-    },
-    enlever(slot, index) {
-      switch (slot.label) {
-        case 'tête':
-          this.$store.commit('enlever', {item: index, index: 0});
-          break
-        case 'corps':
-          this.$store.commit('enlever', {item: index, index: 1});
-          break
-        case 'mains':
-          this.$store.commit('enlever', {item: index, index: 2});
-          break
-        case 'ceinture':
-          this.$store.commit('enlever', {item: index, index: 3});
-          break
-        case 'sac à dos':
-          this.$store.commit('enlever', {item: index, index: 4});
-          break
-      }
-      this.$store.commit('enlever', index)
     },
     popSlot(name) {
       console.log(name)
