@@ -29,15 +29,22 @@
         <td>
           <CheckedList
               :data="currentPerso.itemsAchetes"
-              :fields="['nom','type']"
               :checked="checkedBoughtItems"
               item-check
-              :item-button="{show: true, text: 'price'}"
-              :list-button="{show: true, text: 'Infos'}"
+              :item-button="true"
               @checked-changed="toggleItem"
               @item-button-clicked="showItemPrice"
-              @list-button-clicked="showItemsInfo"
           >
+
+            <template v-slot:item="{item}">
+              <span>{{item.nom}}</span>
+            </template>
+
+            <template v-slot:item-button>
+              <v-btn color="purple"> Infos </v-btn>
+            </template>
+
+
           </CheckedList>
         </td>
       </tr>

@@ -12,24 +12,43 @@
         <td>
           <CheckedList
               :data="itemsStock"
-              :fields="['text']"
               :checked="checkedItemsStock"
               item-check
-              :item-button="{show: true, text: 'acheter'}"
-              :list-button="{show: true, text: 'acheter sélectionnés'}"
+              :item-button="true"
+              :list-button="true"
               @checked-changed="toggleItemStock"
               @item-button-clicked="buyOneItem"
               @list-button-clicked="buySelectedItems"
           >
+            <template v-slot:item="{item}">
+              <span>{{item.text}}</span>
+            </template>
+
+            <template v-slot:item-button="{indexRow}">
+              <v-btn v-if="indexRow%2 === 0" color="red">Buy</v-btn>
+              <v-btn v-else color="blue">Buy</v-btn>
+            </template>
+
+            <template v-slot:list-button>
+              <v-btn color="green">Buy all</v-btn>
+            </template>
           </CheckedList>
+
         </td>
         <td>
           <CheckedList
               :data="itemsCommande"
-              :fields="['text']"
-              :item-button="{show: true, text: 'commander'}"
+              :item-button="true"
               @item-button-clicked="orderOneItem"
           >
+
+            <template v-slot:item="{item}">
+              <span>{{item.text}}</span>
+            </template>
+
+            <template v-slot:item-button="{item}">
+              <v-btn :color="item.color">Order</v-btn>
+            </template>
           </CheckedList>
         </td>
       </tr>
@@ -39,6 +58,7 @@
 
 <script>
 import CheckedList from "@/components/CheckedList";
+import {itemCats} from "@/services/data.service"
 export default {
   name: "ShopDetails",
   components: {CheckedList},
@@ -65,7 +85,17 @@ export default {
       return this.shop.itemStock.map(e => ({text: e.nom+' : '+e.prix+' po'}) )
     },
     itemsCommande() {
-      return this.shop.itemCommande.map(e => ({text: e.nom+' : '+e.prix+' po'}) )
+
+      let delai = []
+      for (let i = 0 ; i < this.shop.itemCommande.length ; i++) {
+        delai.push(this.calculDelai())
+      }
+
+      return this.shop.itemCommande.map(e => ({
+        delai: delai[this.shop.itemCommande.indexOf(e)],
+        text: e.nom+' : '+delai[this.shop.itemCommande.indexOf(e)]+' délai_commande',
+        color: this.assigneCouleur(e.type)
+      }) )
     }
   },
   methods: {
@@ -98,14 +128,23 @@ export default {
         this.buyOneItem(index)
       })
     },
-    orderOneItem(index) {
-      console.log('commande de '+this.shop.itemCommande[index].nom)
+    calculDelai() {
       let random = Math.floor(Math.random() * (10000 - 2000 + 1)) + 2000;
-      let test = confirm("Le temps de commande est de : "+random+" ms, voulez vous continuer ?")
+      return random
+    },
+
+    orderOneItem(index) {
+      console.log(index)
+      let test = confirm("Le temps de commande est de : "+this.itemsCommande[index].delai+" ms, voulez vous continuer ?")
       if (test) {
-        this.$store.dispatch('order', {time : random, item: this.shop.itemCommande[index]})
+        this.$store.dispatch('order', {time : this.itemsCommande[index].delai, item: this.shop.itemCommande[index]})
       }
     },
+    assigneCouleur(categorie) {
+      let color = ["blue", "green", "purple", "yellow", "pink", "brown", "red", "orange", "grey", "white"]
+      let cat = itemCats.indexOf(categorie)
+      return color[cat]
+    }
   },
   watch: {
     // Si on change de boutique, le tableau idSelectedItemStock ne va pas changer.
