@@ -2,7 +2,7 @@
   <div>
     <div style="text-align: left">
       <select v-model="currentStreet" class="townselect" @change="streetSelected(currentStreet)">
-        <option hidden value=null>Sélectionner une rue</option>
+        <option disabled value="null">Sélectionner une rue</option>
         <option :value="index" v-for="(rue, index) in villes[idTown-1].rues" :key="index">{{rue.nom}}</option>
       </select>
     </div>

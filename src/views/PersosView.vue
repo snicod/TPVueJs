@@ -10,7 +10,24 @@
         </select>
       </div>
       <!-- partie droite -->
-      <perso-caracs></perso-caracs>
+      <perso-caracs>
+        <template v-slot:carac="{perso}">
+          <div>
+            Niveau : <v-icon v-for="lvl in perso.niveau" :key="lvl">mdi-star-four-points-outline</v-icon>
+          </div>
+          <div>
+            HP :
+            <div :style="{ width: perso.attributs.vie + 'px', height: '10px', backgroundColor: 'green', position: 'absolute'}"></div>
+            <div :style="{ width: perso.attributs.vitalite + 'px', height: '10px', backgroundColor: 'red' }"></div>
+          </div>
+        </template>
+
+        <template v-slot:gold="{or}">
+          {{convertToRomain(or)}}<v-icon>mdi-bitcoin</v-icon>
+          <span></span>
+        </template>
+
+      </perso-caracs>
 
     </div>
   </v-container>
@@ -38,6 +55,19 @@ export default {
       this.$store.commit('setCurrentPerso', index)
       console.log(this.$store.state.currentPerso.nom)
     },
+    convertToRomain(or) {
+      let roman = "";
+      let romanNumeral = ["M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"];
+      let decimal = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1];
+
+      for (let i = 0; i < decimal.length; i++) {
+        while (or >= decimal[i]) {
+          roman += romanNumeral[i];
+          or -= decimal[i];
+        }
+      }
+      return roman;
+    }
   }
 }
 
