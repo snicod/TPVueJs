@@ -19,7 +19,7 @@
         <td>
           <ul>
             <li v-for="(slot, index) in slots" :key="index">
-              <button @click="popSlot(slot.label)"> {{slot.label}}</button>
+              <button @click="popSlot(slot.nom)"> {{slot.label}}</button>
             </li>
           </ul>
         </td>
