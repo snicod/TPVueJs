@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style="text-align: left">
-      <select v-model="currentStreet" class="townselect" @change="$router.push({name: 'shops', params:{ idtown: idTown, idstreet: currentStreet}})">
+      <select v-model="currentStreet" class="townselect" @change="streetSelected(currentStreet)">
         <option hidden value=null>Sélectionner une rue</option>
         <option :value="index" v-for="(rue, index) in villes[idTown-1].rues" :key="index">{{rue.nom}}</option>
       </select>
@@ -30,6 +30,10 @@ export default {
   methods: {
     setCurrentStreet(index) {
       this.$store.commit("setCurrentStreet", this.rues[index._id])
+    },
+    streetSelected(currentStreet) {
+      this.$router.push({name: 'shops', params:{ idtown: this.idTown, idstreet: currentStreet}})
+      this.$store.commit("setCurrentShop", null)
     }
   },
   created() {

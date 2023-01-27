@@ -44,11 +44,10 @@
     </table>
     <br>
     <select v-model="itemSell" class="persoselect">
-      <option disabled value="">Sélectionner un item à revendre</option>
+      <option hidden value=null>Sélectionner un item à revendre</option>
       <option v-for="(itemAchete, index) in currentPerso.itemsAchetes" :key="index" :value="itemAchete">{{itemAchete.nom}}</option>
     </select>
     <button @click="sellItem(itemSell)"> Vendre </button>
-    <button @click="equiperItem(itemSell)"> Équiper </button>
 
     <br>
     <router-view name="slot" style="text-align: center"></router-view>
@@ -129,17 +128,6 @@ export default {
       let test = confirm("Vous allez vendre cet item à : " + newPrice + " golds, voulez vous continuer ?")
       if (test) {
         this.$store.commit('resell', {item: index, gold: newPrice})
-      }
-    },
-    equiperItem(index) {
-      console.log(index)
-      if (index !== null) {
-        let test = confirm("Vous allez équiper cet item, voulez vous continuer ?")
-        if (test) {
-          this.$store.commit('equip', index)
-        }
-      } else {
-        alert("Pas d'item sélectionné")
       }
     },
     popSlot(name) {

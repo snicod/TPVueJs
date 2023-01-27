@@ -57,24 +57,24 @@ export default new Vuex.Store({
       }
       state.currentPerso.or += data.gold
     },
-    equip(state, item) {
-      console.log(item.type)
-      if (item.type === 'helmet' || item.type === 'crown') {
+    equip(state, data) {
+      console.log(data.item.type)
+      if (data.slot === 'head' && (data.item.type === 'helmet' || data.item.type === 'crown')) {
         if (state.currentPerso.emplacements[0].items.length === 0) {
-          let ind = state.currentPerso.itemsAchetes.indexOf(item);
+          let ind = state.currentPerso.itemsAchetes.indexOf(data.item);
           state.currentPerso.itemsAchetes.splice(ind, 1)
-          state.currentPerso.emplacements[0].items.push(item)
+          state.currentPerso.emplacements[0].items.push(data.item)
         }
         else
         {
           alert("limite d'équipement dépassée")
         }
       }
-      if (item.type === 'armor'|| item.type === 'clothes') {
+      else if (data.slot === 'body' && (data.item.type === 'armor'|| data.item.type === 'clothes')) {
         if (state.currentPerso.emplacements[1].items.length === 0) {
-          let ind = state.currentPerso.itemsAchetes.indexOf(item);
+          let ind = state.currentPerso.itemsAchetes.indexOf(data.item);
           state.currentPerso.itemsAchetes.splice(ind, 1)
-          state.currentPerso.emplacements[1].items.push(item)
+          state.currentPerso.emplacements[1].items.push(data.item)
         }
         else
         {
@@ -82,11 +82,11 @@ export default new Vuex.Store({
         }
 
       }
-      if (item.type === 'weapon' || item.type === 'lighter') {
+      else if (data.slot === 'hands' && (data.item.type === 'weapon' || data.item.type === 'lighter')) {
         if (state.currentPerso.emplacements[2].items.length < 2) {
-          let ind = state.currentPerso.itemsAchetes.indexOf(item);
+          let ind = state.currentPerso.itemsAchetes.indexOf(data.item);
           state.currentPerso.itemsAchetes.splice(ind, 1)
-          state.currentPerso.emplacements[2].items.push(item)
+          state.currentPerso.emplacements[2].items.push(data.item)
         }
         else
         {
@@ -94,11 +94,11 @@ export default new Vuex.Store({
         }
 
       }
-      if (item.type === 'weapon' || item.type === 'purse') {
+      else if (data.slot === 'belt' && (data.item.type === 'weapon' || data.item.type === 'purse')) {
         if (state.currentPerso.emplacements[3].items.length < 3) {
-          let ind = state.currentPerso.itemsAchetes.indexOf(item);
+          let ind = state.currentPerso.itemsAchetes.indexOf(data.item);
           state.currentPerso.itemsAchetes.splice(ind, 1)
-          state.currentPerso.emplacements[3].items.push(item)
+          state.currentPerso.emplacements[3].items.push(data.item)
         }
         else
         {
@@ -106,11 +106,11 @@ export default new Vuex.Store({
         }
 
       }
-      if (item.type === 'helmet' || item.type === 'crown' || item.type === 'clothes' || item.type === 'lighter' || item.type === 'potion' || item.type === 'spell' || item.type === 'food' || item.type === 'purse') {
+      else if (data.item.type === 'helmet' || data.item.type === 'crown' || data.item.type === 'clothes' || data.item.type === 'lighter' || data.item.type === 'potion' || data.item.type === 'spell' || data.item.type === 'food' || data.item.type === 'purse') {
         if (state.currentPerso.emplacements[4].items.length < 10) {
-          let ind = state.currentPerso.itemsAchetes.indexOf(item);
+          let ind = state.currentPerso.itemsAchetes.indexOf(data.item);
           state.currentPerso.itemsAchetes.splice(ind, 1)
-          state.currentPerso.emplacements[4].items.push(item)
+          state.currentPerso.emplacements[4].items.push(data.item)
         }
         else
         {

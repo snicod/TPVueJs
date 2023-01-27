@@ -12,7 +12,7 @@
           <ul v-if="listItemSlot.length > 0">
             <li v-for="(itemAchete, index) in listItemSlot " :key="index">
               {{itemAchete.nom}}
-              <button @click="equiperItem(itemAchete)"> Équiper </button>
+              <button @click="equiperItem(itemAchete, slotName)"> Équiper </button>
             </li>
           </ul>
           <ul v-else>
@@ -108,15 +108,10 @@ export default {
     */
        this.$store.commit('enlever', {item: index, index: slot})
     },
-    equiperItem(index) {
-      console.log(index)
-      if (index !== null) {
-        let test = confirm("Vous allez équiper cet item, voulez vous continuer ?")
-        if (test) {
-          this.$store.commit('equip', index)
-        }
-      } else {
-        alert("Pas d'item sélectionné")
+    equiperItem(index, slotName) {
+      let test = confirm("Vous allez équiper cet item, voulez vous continuer ?")
+      if (test) {
+        this.$store.commit('equip', {item: index, slot: slotName})
       }
     }
   }
