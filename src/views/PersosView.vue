@@ -20,6 +20,11 @@
             <div :style="{ width: perso.attributs.vie + 'px', height: '10px', backgroundColor: 'green', position: 'absolute'}"></div>
             <div :style="{ width: perso.attributs.vitalite + 'px', height: '10px', backgroundColor: 'red' }"></div>
           </div>
+          <div>
+            Force : {{perso.attributs.force}}
+            <br>
+            Protection : {{perso.attributs.protection}}
+          </div>
         </template>
 
         <template v-slot:gold="{or}">

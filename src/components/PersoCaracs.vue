@@ -23,10 +23,11 @@
           <slot name="gold" :or="currentPerso.or"></slot>
         </td>
         <td>
+          <h3>Items possédés mais pas équipés</h3>
+          <br>
           <CheckedList
               :data="currentPerso.itemsAchetes"
               :checked="checkedBoughtItems"
-              item-check
               :item-button="true"
               @checked-changed="toggleItem"
               @item-button-clicked="showItemPrice"
